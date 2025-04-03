@@ -1,22 +1,28 @@
 #pragma once
 #include <memory>
+#include <string>
 
 
-class Node_int {
+using std::string;
+
+class Node_Guid {
+
 public:
 
-	Node_int(int val);
+	Node_Guid(string Guid);
 
-	int get_data();
+
 
 	//get
-	std::shared_ptr<Node_int> get_next();
-	std::weak_ptr<Node_int> get_prev();
+	string get_data();
+	std::shared_ptr<Node_Guid> get_next();
+	std::weak_ptr<Node_Guid> get_prev();
 
 	//set
-	void set_data(int);
-	void set_next(std::shared_ptr<Node_int>);
-	void set_prev(std::weak_ptr<Node_int>);
+
+	void set_data(string);
+	void set_next(std::shared_ptr<Node_Guid>);
+	void set_prev(std::weak_ptr<Node_Guid>);
 
 
 
@@ -24,31 +30,31 @@ public:
 
 private:
 
-	int data;
+	string data;
 
-	std::shared_ptr<Node_int> next;
-	std::weak_ptr<Node_int> prev;
+	std::shared_ptr<Node_Guid> next;
+	std::weak_ptr<Node_Guid> prev;
 };
 
-// Doubly and Rotating Linked _ list int khodam intory gozashtam
-class DRL_list_int {
+// Doubly and Rotating Linked _ list Guid khodam intory gozashtam
+class DRL_list_Guid {
 
 public:
 
-	DRL_list_int();
+	DRL_list_Guid();
 
-	~DRL_list_int();
+	~DRL_list_Guid();
 
-	int get_cur();
-	int get_next();
-	int get_prev();
+	string get_cur();
+	string go_next();
+	string go_prev();
 	int get_size();
-	int get_head();
-	int get_tail();
+	string get_head();
+	string get_tail();
 
-	void drop(int);
+	void drop(string);
 
-	void pick(int);
+	void pick(string);
 
 
 
@@ -56,9 +62,9 @@ public:
 private:
 	
 
-	std::shared_ptr<Node_int> begin;
+	std::shared_ptr<Node_Guid> begin;
 	
-	std::weak_ptr<Node_int> current;
+	std::weak_ptr<Node_Guid> current;
 
 	int size;
 
