@@ -1,18 +1,17 @@
 #include "Gun.h"
 
-int Gun::Gun_count = 0;
-
+std::unordered_map<string, std::shared_ptr<Gun>> Gun:: Gun_map;
 
 Gun::Gun()
-	:model(GunModel::Model::unknown),price(0),ammo(0),ammo_power(0),id(Gun::Gun_count + 1)
+	:Gun(GunModel::Model::unknown, 0, 0, 0)
 {
-	Gun::Gun_count++;
+
 }
 
 Gun::Gun(GunModel::Model _model, int _ammo, int _ammo_Power, int _price)
-	:model(_model), price(_price), ammo(_ammo), ammo_power(_ammo_Power), id(Gun::Gun_count + 1)
+	:model(_model), price(_price), ammo(_ammo), ammo_power(_ammo_Power),id(mrand::GuidGen())
 {
-	Gun::Gun_count++;
+	;
 }
 
 Gun::Gun(const Gun& other)
@@ -22,23 +21,20 @@ Gun::Gun(const Gun& other)
 	price = other.price;
 	model = other.model;
 	
-	id = ++Gun::Gun_count;
+	id = other.id;
 }
 
 Gun::~Gun()
 {
-	Gun::Gun_count--;
+	;
 }
 
-int Gun::get_gun_count()
-{
-	return Gun_count;
-}
-
-int Gun::get_id()
+string Gun::get_id()
 {
 	return id;
 }
+
+
 
 GunModel::Model Gun::get_model() const
 {
@@ -88,4 +84,34 @@ void Gun::set_price(int price)
 		this->price = price;
 }
 
+std::shared_ptr<Gun> Gun::get_from_map(string& guid)
+{
 
+	auto cur = Gun_map.find(guid);
+	if(cur != Gun_map.end())
+		return cur->second;
+
+	return nullptr;
+}
+
+string Gun::add_tomap(std::shared_ptr<Gun> gun_ptr)
+{
+	if(Gun_map.find(gun_ptr->get_id()) == Gun_map.end())
+		Gun_map[gun_ptr->get_id()] = gun_ptr;
+
+	return gun_ptr->get_id();
+}
+
+void Gun::delete_from_map(string& guid)
+{
+	auto cur = Gun_map.find(guid);
+
+	if (cur != Gun_map.end())
+		Gun_map.erase(cur);
+
+}
+
+int Gun::get_gun_count() {
+
+	return Gun_map.size();
+}

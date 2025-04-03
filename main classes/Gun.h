@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
+#include <memory>
+#include "myrandom.h"
+#include <unordered_map>
 #include "GunModel.h"
-
+using std::string;
 
 
 class Gun {
@@ -19,9 +22,9 @@ public:
 
 	//Getter
 
-	static int  get_gun_count();
+	// tedad gun ro ba size map migirim
 
-	int get_id();
+	string get_id();
 
 	GunModel::Model get_model() const;
 
@@ -40,11 +43,20 @@ public:
 	void set_ammo_power(int);
 	void set_price(int);
 
+	static std::shared_ptr<Gun> get_from_map(string& guid);
+
+	static string add_tomap(std::shared_ptr<Gun>);
+
+	static void delete_from_map(string& guid);
+
+	static int get_gun_count();
+
 private:
 
-	static int Gun_count;
+	
 
-	int id;
+	static std::unordered_map<string, std::shared_ptr<Gun>> Gun_map;
+	string id;
 	GunModel::Model model;
 
 	int ammo;
