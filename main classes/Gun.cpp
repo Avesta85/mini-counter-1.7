@@ -84,6 +84,15 @@ void Gun::set_price(int price)
 		this->price = price;
 }
 
+bool Gun::isValidGun(string GUID)
+{
+
+	if (Gun_map.find(GUID) == Gun_map.end())
+		return false;
+
+	return true;
+}
+
 std::shared_ptr<Gun> Gun::get_from_map(string& guid)
 {
 

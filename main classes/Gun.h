@@ -43,6 +43,10 @@ public:
 	void set_ammo_power(int);
 	void set_price(int);
 
+	// map
+
+	static bool isValidGun(string GUID);
+	
 	static std::shared_ptr<Gun> get_from_map(string& guid);
 
 	static string add_tomap(std::shared_ptr<Gun>);
