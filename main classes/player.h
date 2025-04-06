@@ -10,21 +10,22 @@ using std::string;
 
 class player {
 
+public:
 	player();
 	player(string, int, int, int, bool);
 	~player();
 
 	//getter
 
-	string get_name();
-	string get_id();
-	string get_holdGun_id();
-	string get_holdGun_name();
-	int get_health();
-	int get_armor();
-	bool is_Alive();
-	bool is_ABot();
-	int get_monye();
+	string get_name() const;
+	string get_id() const;
+	string get_holdGun_id() const;
+	string get_holdGun_name() const;
+	int get_health() const;
+	int get_armor() const;
+	bool is_Alive() const;
+	bool is_ABot() const;
+	int get_monye() const;
 
 	//setter 
 	void set_name(string);
