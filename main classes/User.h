@@ -10,6 +10,7 @@ using json = nlohmann::json;
 class User {
 public:
 	User(std::string _username, std::string _nickname, std::string _password);
+	User(std::string _username, std::string _nickname, std::string _password, int win_count, int lose_count);// for load 
 	
 	//getter
 	std::string get_username();

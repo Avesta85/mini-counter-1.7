@@ -10,6 +10,12 @@ User::User(std::string _username, std::string _nickname, std::string _password)
 	
 }
 
+User::User(std::string _username, std::string _nickname, std::string _password, int win_count, int lose_count)
+	:username(_username), nickname(_nickname), password(_password), win_count(win_count), lose_count(lose_count)
+{
+	;
+}
+
 std::string User::get_username()
 {
 	return this->username;
