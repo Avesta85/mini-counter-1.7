@@ -45,6 +45,17 @@ void User::player_lose()
 	this->lose_count++;
 }
 
+json User::to_json() const
+{
+	return json{
+		{"Username",username},
+		{"nickname",nickname},
+		{"password",password},
+		{"wincount",win_count},
+		{"losecount",lose_count}
+	};
+}
+
 std::string User::Hash_SHA_password(std::string password)
 {
 	unsigned char hashed[SHA256_DIGEST_LENGTH];

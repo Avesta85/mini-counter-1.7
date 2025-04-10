@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
+#include <nlohmann/json.hpp>
 
+using json = nlohmann::json;
 
 
 
@@ -18,6 +20,10 @@ public:
 	//setter nyazy nist;
 	void player_win();
 	void player_lose();
+
+	//json support
+
+	json to_json() const;
 
 	static std::string Hash_SHA_password(std::string password);
 
