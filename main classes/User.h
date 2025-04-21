@@ -18,6 +18,15 @@ struct Gameround {
 		return Gameround{ j.at("team"),j.at("won") };
 	}
 
+	string to_string() const{
+		std::stringstream ss;
+		ss << "Team : " << ((is_CT) ? ("CT") : ("Terrorist"))<<"-->";
+		ss << ((won) ? ("You Won") : "You lose");
+
+		return ss.str();
+
+	}
+
 };
 
 class User {
