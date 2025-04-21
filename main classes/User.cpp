@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <sstream>
+
  
 User::User(std::string _username, std::string _nickname, std::string _password)
 	:username(_username), nickname(_nickname), password(_password), win_count(0), lose_count(0)
@@ -10,8 +11,8 @@ User::User(std::string _username, std::string _nickname, std::string _password)
 	
 }
 
-User::User(std::string _username, std::string _nickname, std::string _password, int win_count, int lose_count)
-	:username(_username), nickname(_nickname), password(_password), win_count(win_count), lose_count(lose_count)
+User::User(std::string _username, std::string _nickname, std::string _password, int win_count, int lose_count, std::vector<Gameround>& Game_r)
+	:username(_username), nickname(_nickname), password(_password), win_count(win_count), lose_count(lose_count),game_record(Game_r)
 {
 	;
 }
@@ -41,6 +42,17 @@ int User::get_loseCount()
 	return this->lose_count;
 }
 
+std::vector<Gameround> User::get_gameRecord()
+{
+	return game_record;
+}
+
+
+void User::add_gameRecord(const Gameround& gr)
+{
+	game_record.push_back(gr);
+}
+
 void User::player_win()
 {
 	this->win_count++;
@@ -53,12 +65,20 @@ void User::player_lose()
 
 json User::to_json() const
 {
+
+	json j_r = json::array();
+
+	for (const auto& r : game_record)
+		j_r.push_back(r.to_json());
+
 	return json{
 		{"Username",username},
 		{"nickname",nickname},
 		{"password",password},
 		{"wincount",win_count},
-		{"losecount",lose_count}
+		{"losecount",lose_count},
+		{"game",j_r}
+		
 	};
 }
 
