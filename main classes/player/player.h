@@ -28,6 +28,8 @@ public:
 	bool is_ABot() const;
 	int get_monye() const;
 
+	int get_total_Gun_power();
+
 	//setter 
 	void set_name(string);
 	void set_health(int);

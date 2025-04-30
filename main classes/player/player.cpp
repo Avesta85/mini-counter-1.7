@@ -67,7 +67,30 @@ bool player::is_ABot() const
 
 int player::get_monye() const
 {
-	return this->monye;
+	return this->monye; 
+}
+
+int player::get_total_Gun_power()
+{
+	
+	int total_power{};
+	if (GunId_List.get_size() > 0) {
+		auto cur = GunId_List.get_cur();
+		auto tmp = GunId_List.get_cur();
+
+		auto&& cur_gun = Gun::get_from_map(cur);
+
+		total_power = total_power + cur_gun->get_ammo() + cur_gun->get_ammo_power();
+
+		cur = GunId_List.go_next();
+		while (cur != tmp) {
+			cur_gun = Gun::get_from_map(cur);
+			total_power = total_power + cur_gun->get_ammo() + cur_gun->get_ammo_power();
+			cur = GunId_List.go_next();
+		}
+
+	}
+	return total_power;
 }
 
 void player::set_name(string newName)
