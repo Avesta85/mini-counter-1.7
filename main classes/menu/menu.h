@@ -1,12 +1,13 @@
 #pragma once
-#include "console.h"
+#include "gtest/gtest.h"
+#include "../console/console.h"
 #include <Windows.h>
 #include <iostream>
 #include <memory>
-#include "UserManager.h"
+#include "../UserManager/UserManager.h"
 #include <string>
-#include "Setting.h"
-
+#include "../Setting/Setting.h"
+#include "../Randomized_player/Randomized_Player.h"
 using std::cin;
 using std::cout;
 using std::endl;
@@ -15,15 +16,6 @@ using std::endl;
 class menu
 {
 private:
-	enum {
-		defualt = -1,
-		Playe = 1,
-		Setting_m = 2,
-		game_history = 3,
-		user_menu = 4,
-		exit = 5,
-		start
-	};
 
 	bool setting_loaded=0;
 	std::unique_ptr<User> loc_User;
@@ -33,25 +25,52 @@ private:
 public:
 	menu();
 
-	//menu control
-	
-	void menu_handeler();
+	void mini_counter_logo();
+	//Flow Control
 
-	int get_event(int);
+	void Mini_Counter_Menu();
 
-	//menu
-	int start_menu();
-	int play_menu();
-	int setting_menu();
-	int gameHistory_menu();
-	int User_menu();
-	void Safe_Exit();
+	//login screen ->Login / Sign up
+	void User_Entry();
 
-	//login/sign up menu
-	void login_handel();
+	void User_Login();
+
+	void User_SignUp();
+
+	//start screen -> 1) Run test,Run test Game, Run Game
+
+	void Start_Screen_Control(int argc, char** argv);
+
+
+	// class test runner
 	
-	bool login_menu();
+	int Class_Test_Runner(int argc, char** argv);
+	// main game runner
 	
-	bool signUp_menu();
+	void Main_game_Test_runner();
+	// ->Run game->start menu -> 1)play ,2)setting ,3)game record , 4)user details ,5)Exit
+
+	void Run_Game_start_Menu();
+
+	//play
+
+	void Run_Game_Play();
+
+	//setting
+
+	void Run_Game_Setting();
+
+	//game record
+
+	void Run_Game_Record();
+
+	//user details
+
+	void Run_Game_Details();
+
+
+
+
+
 };
 

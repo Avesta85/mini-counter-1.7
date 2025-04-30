@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <memory>
 #include "../myrandom/myrandom.h"
@@ -15,7 +15,12 @@ public:
 	//constructor
 	Gun();
 	Gun(GunModel::Model _model, int _ammo, int _ammo_Power, int _price);
-	Gun(const Gun&);
+	// برای اینکه swap درست عمل کنه
+	Gun(const Gun& other);
+	Gun& operator=(const Gun& other) = default;
+
+	Gun(Gun&& other) = default;       
+	Gun& operator=(Gun&& other) = default;
 	
 	//distructor
 	

@@ -12,8 +12,8 @@ Gun::Gun()
 Gun::Gun(GunModel::Model _model, int _ammo, int _ammo_Power, int _price)
 	:model(_model), price(_price), ammo(_ammo), ammo_power(_ammo_Power),id(mrand::GuidGen())
 {
-	if (_price < 0 || _ammo < 0 || _ammo_Power < 0) throw std::invalid_argument("negative argument passed to Gun");
-}
+	if (_price < 0 || _ammo < 0 || _ammo_Power < 0) throw std::invalid_argument("negative argument passed to Gun"); 
+} 
 
 Gun::Gun(const Gun& other)
 {

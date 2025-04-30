@@ -75,6 +75,18 @@ void UserManager::update_game_record(Gameround& gr, string user_name)
     }
 }
 
+void UserManager::Reload_User(std::unique_ptr<User>& Userptr)
+{
+    for (auto& r : user_list) {
+        if (r.get_username() == Userptr->get_username() &&
+            r.get_hashed_password() == Userptr->get_hashed_password()
+            )
+        {
+            Userptr.reset(new User(r));
+        }
+    }
+}
+
 
 void UserManager::saveUserIntoJson()
 {

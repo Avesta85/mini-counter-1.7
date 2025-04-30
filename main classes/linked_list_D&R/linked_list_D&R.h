@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <stdexcept>
 
 
 using std::string;
@@ -56,7 +57,7 @@ public:
 
 	void pick(string);
 
-
+	bool is_in_list(string guid);
 
 
 private:

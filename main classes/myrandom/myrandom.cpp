@@ -1,5 +1,5 @@
 #include "myrandom.h"
-
+#include "../Gun/Gun.h"
 std::string mrand::GuidGen()
 {
 	std::random_device base;
@@ -28,4 +28,31 @@ std::string mrand::GuidGen()
 		<< std::setw(8) << part51 << std::setw(4) << part52;
 
 	return ss.str();
+}
+
+int mrand::Random_number(int start, int end)
+{
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distrib(start, end);
+
+	return distrib(gen);
+}
+
+void mrand::Shuffle_GunVector(std::vector<Gun>& guns) {
+
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	int n = guns.size();
+
+	for (int i = n - 1; i > 0; --i) {
+		std::uniform_int_distribution<> dis(0, i);
+		int j = dis(gen);
+
+		if (i != j) {
+			Gun temp = guns[i];
+			guns[i] = guns[j];
+			guns[j] = temp;
+		}
+	}
 }

@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <filesystem>
-#include "User.h"
+#include "../User/User.h"
 
 
 using string = std::string;
@@ -28,6 +28,7 @@ public:
 
 	void update_game_record(Gameround& gr,string user_name);
 
+	void Reload_User(std::unique_ptr<User>& Userptr);
 	//save
 
 	void saveUserIntoJson();

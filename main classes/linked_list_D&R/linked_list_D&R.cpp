@@ -210,6 +210,7 @@ string DRL_list_Guid::get_tail()
 
 void DRL_list_Guid::drop(string guid)
 {
+	if (!is_in_list(guid)) throw std::invalid_argument("GUN id isnt in list");
 	if (begin) {
 		if (current.lock()->get_data() == guid) {
 			current = current.lock()->get_prev();
@@ -273,3 +274,22 @@ void DRL_list_Guid::pick(string guid)
 	}
 	size++;
 }
+
+bool DRL_list_Guid::is_in_list(string guid)
+{
+	if (begin) {
+		auto&& cur = begin->get_next();
+		if (begin->get_data() == guid)
+			return true;
+
+		while (cur != begin) {
+			if (cur->get_data() == guid)
+				return true;
+
+			cur = cur->get_next();
+		}
+		return false;
+	}
+	return false;
+}
+
