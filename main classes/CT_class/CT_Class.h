@@ -11,7 +11,7 @@ class CT :public player
 {
 public:
 
-	CT(string name, int health, int armor, int monye, bool isABot, bool he_have_the_BomB, bool he_Plant_The_Bomb);
+	CT(string name, int health, int armor, int monye, bool isABot, bool haveAKit, bool isheDefusingTheBomb);
 	CT();
 	CT(const CT&);
 
