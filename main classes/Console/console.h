@@ -1,6 +1,10 @@
 #pragma once
 #include <iostream>
 #include <map>
+#include <limits>
+#include <sstream>
+#include "../CT_class/CT_Class.h"
+#include "../TerroristClass/TerroristClass.h"
 
 class Console {
 public:
@@ -13,5 +17,11 @@ public:
     static void printColored(const std::string& text, Color textColor);
 
     static void waiter();
+
+    static void ClearBuffer();
+
+    static void ClearLine();
+
+    static void Player_To_Player(std::string& p1, std::string& p2,bool Ct1,bool ct2,bool kill,bool both);
 };
 
