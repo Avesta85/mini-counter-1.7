@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
 #include <nlohmann/json.hpp>
-
+#include <sstream>
+#include <vector>
 
 using json = nlohmann::json;
 using string = std::string;
@@ -35,12 +36,12 @@ public:
 	User(std::string _username, std::string _nickname, std::string _password, int win_count, int lose_count,std::vector<Gameround>& Game_r);// for load 
 	
 	//getter
-	std::string get_username();
-	std::string get_nickname();
-	std::string get_hashed_password();
-	int get_winCount();
-	int get_loseCount();
-	std::vector<Gameround> get_gameRecord();
+	std::string get_username() const;
+	std::string get_nickname() const;
+	std::string get_hashed_password() const;
+	int get_winCount() const;
+	int get_loseCount() const;
+	std::vector<Gameround> get_gameRecord() const;
 	//setter
 
 	void add_gameRecord(const Gameround& gr);

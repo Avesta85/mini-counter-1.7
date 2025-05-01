@@ -7,46 +7,39 @@
 #include <filesystem>
 #include "../User/User.h"
 
-
 using string = std::string;
 using json = nlohmann::json;
 using Uvector = std::vector<User>;
-namespace fs = std::filesystem ;
+namespace fs = std::filesystem;
 
 class UserManager
 {
-
 public:
-
 	static UserManager& get_instance();
 
 	//load
-
 	void loadUserFromJson();
 
 	//update
-
-	void update_game_record(Gameround& gr,string user_name);
-
+	void update_game_record(Gameround& gr, string user_name);
 	void Reload_User(std::unique_ptr<User>& Userptr);
-	//save
 
+	//save
 	void saveUserIntoJson();
 
 	//register User
-
 	bool User_register(User& newUser);
 
 	//login
-
-	bool user_Login(string UserName, string simple_Password,std::unique_ptr<User>& User_holder);
+	bool user_Login(string UserName, string simple_Password, std::unique_ptr<User>& User_holder);
 
 private:
-
 	UserManager();
-
 	UserManager(const UserManager&) = delete;
 	UserManager& operator=(const UserManager&) = delete;
+
+	// اعتبارسنجی نام کاربری
+	bool validate_username(const string& username);
 
 	static std::unique_ptr<UserManager> instance;
 	Uvector user_list;
