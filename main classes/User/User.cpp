@@ -8,7 +8,7 @@ User::User(std::string _username, std::string _nickname, std::string _password)
 	:username(_username), nickname(_nickname), password(_password), win_count(0), lose_count(0)
 {
 	password = User::Hash_SHA_password(_password);
-}
+} 
 
 User::User(std::string _username, std::string _nickname, std::string _password, int win_count, int lose_count, std::vector<Gameround>& Game_r)
 	:username(_username), nickname(_nickname), password(_password), win_count(win_count), lose_count(lose_count), game_record(Game_r)

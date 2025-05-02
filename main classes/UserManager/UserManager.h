@@ -16,6 +16,8 @@ class UserManager
 {
 public:
 	static UserManager& get_instance();
+	static void reset_instance(); // برای تست
+	static void set_test_mode(bool is_test); // برای تست
 
 	//load
 	void loadUserFromJson();
@@ -43,7 +45,13 @@ private:
 
 	static std::unique_ptr<UserManager> instance;
 	Uvector user_list;
-	const string filename;
+	const string main_filename;
+	const string test_filename;
+	bool is_test_mode;
+	
+	string get_current_filename() const {
+		return is_test_mode ? test_filename : main_filename;
+	}
 
 	User from_json(const json& j);
 };

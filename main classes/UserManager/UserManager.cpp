@@ -3,24 +3,42 @@
 
 std::unique_ptr<UserManager> UserManager::instance = nullptr;
 
-UserManager::UserManager() :filename("data/users.json")
+UserManager::UserManager() 
+    : main_filename("data/users.json")
+    , test_filename("data/test_users.json")
+    , is_test_mode(false)
 {
     loadUserFromJson();
+}
+
+void UserManager::reset_instance() {
+    instance.reset();
+}
+
+void UserManager::set_test_mode(bool is_test) {
+    if (!instance) {
+        instance.reset(new UserManager);
+    }
+    instance->is_test_mode = is_test;
+    instance->user_list.clear();
+    instance->loadUserFromJson();
 }
 
 User UserManager::from_json(const json& j)
 {
     std::vector<Gameround> tmp;
     try {
-        for (const auto& r : j.at("game"))
-            tmp.push_back(Gameround::from_json(r));
+        if(j.contains("game")) {
+            for (const auto& r : j.at("game"))
+                tmp.push_back(Gameround::from_json(r));
+        }
 
         return User(
             j.at("Username").get<string>(),
             j.at("nickname").get<string>(),
             j.at("password").get<string>(),
-            j.at("wincount").get<int>(),
-            j.at("losecount").get<int>(),
+            j.value("wincount", 0),
+            j.value("losecount", 0),
             tmp
         );
     }
@@ -40,61 +58,58 @@ UserManager& UserManager::get_instance()
 void UserManager::loadUserFromJson()
 {
     user_list.clear();
+    string current_file = get_current_filename();
 
-    if (!(fs::exists("data") && fs::is_directory("data")))
+    if (!(fs::exists("data") && fs::is_directory("data"))) {
         fs::create_directories("data");
+    }
     
-    if (fs::exists(filename)) {
-        try {
-            std::ifstream file(filename);
-            if (file.is_open() && fs::file_size(filename) != 0) {
-                json j_user;
-                file >> j_user;
-                if(j_user.is_array()) {
-                    for (const auto& j_u : j_user) {
-                        User user = from_json(j_u);
-                        if(!user.get_username().empty()) {
-                            user_list.push_back(user);
-                        }
+    if (!fs::exists(current_file)) {
+        std::ofstream file(current_file);
+        json empty_array = json::array();
+        file << empty_array.dump(4);
+        file.close();
+        return;
+    }
+
+    try {
+        std::ifstream file(current_file);
+        if (file.is_open()) {
+            if (fs::file_size(current_file) == 0) {
+                file.close();
+                std::ofstream ofile(current_file);
+                json empty_array = json::array();
+                ofile << empty_array.dump(4);
+                ofile.close();
+                return;
+            }
+
+            json j_user;
+            file >> j_user;
+            
+            if(j_user.is_array()) {
+                for (const auto& j_u : j_user) {
+                    User user = from_json(j_u);
+                    if(!user.get_username().empty()) {
+                        user_list.push_back(user);
                     }
                 }
-                file.close();
             }
-        }
-        catch(const std::exception&) {
-            // در صورت خطا در خواندن فایل، لیست خالی را حفظ می‌کنیم
+            file.close();
         }
     }
-}
-
-void UserManager::update_game_record(Gameround& gr, string user_name)
-{
-    for (auto& r : user_list) {
-        if (r.get_username() == user_name) {
-            r.add_gameRecord(gr);
-            if (gr.won)
-                r.player_win();
-            else
-                r.player_lose();
-        }
-    }
-}
-
-void UserManager::Reload_User(std::unique_ptr<User>& Userptr)
-{
-    for (auto& r : user_list) {
-        if (r.get_username() == Userptr->get_username() &&
-            r.get_hashed_password() == Userptr->get_hashed_password())
-        {
-            Userptr.reset(new User(r));
-        }
+    catch(const std::exception&) {
+        user_list.clear();
     }
 }
 
 void UserManager::saveUserIntoJson()
 {
-    if (!(fs::exists("data") && fs::is_directory("data")))
+    if (!(fs::exists("data") && fs::is_directory("data"))) {
         fs::create_directories("data");
+    }
+
+    string current_file = get_current_filename();
 
     try {
         json j_list = json::array();
@@ -102,7 +117,7 @@ void UserManager::saveUserIntoJson()
             j_list.push_back(user.to_json());
         }
 
-        std::ofstream file(filename);
+        std::ofstream file(current_file);
         if (file.is_open()) {
             file << j_list.dump(4);
             file.close();
@@ -146,14 +161,47 @@ bool UserManager::user_Login(string UserName, string simple_Password, std::uniqu
         return false;
     }
 
+    string hashed_password = User::Hash_SHA_password(simple_Password);
+    
     for (const auto& user : user_list) {
         if (user.get_username() == UserName &&
-            user.get_hashed_password() == User::Hash_SHA_password(simple_Password))
+            user.get_hashed_password() == hashed_password)
         {
             User_holder = std::make_unique<User>(user);
             return true;
         }
     }
+    
+    User_holder = nullptr;
     return false;
+}
+
+void UserManager::update_game_record(Gameround& gr, string user_name)
+{
+    for (auto& user : user_list) {
+        if (user.get_username() == user_name) {
+            user.add_gameRecord(gr);
+            if (gr.won)
+                user.player_win();
+            else
+                user.player_lose();
+            saveUserIntoJson();
+            break;
+        }
+    }
+}
+
+void UserManager::Reload_User(std::unique_ptr<User>& Userptr)
+{
+    if (!Userptr) return;
+    
+    for (const auto& user : user_list) {
+        if (user.get_username() == Userptr->get_username() &&
+            user.get_hashed_password() == Userptr->get_hashed_password())
+        {
+            Userptr = std::make_unique<User>(user);
+            break;
+        }
+    }
 }
 
