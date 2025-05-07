@@ -129,7 +129,7 @@ TEST_F(UserManagerTest, ErrorCaseCorruptedJsonFile) {
 TEST_F(UserManagerTest, ErrorCaseMemoryStress) {
     auto& manager = UserManager::get_instance();
     
-    // ثبت تعداد کمتری کاربر برای تست سریع‌تر حافظه
+    // ثبت تعدادی کاربر برای تست سریع‌تر حافظه
     for(int i = 0; i < 50; i++) {
         User user("stress_user_" + std::to_string(i),
                  "nick_" + std::to_string(i),
