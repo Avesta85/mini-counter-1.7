@@ -178,9 +178,8 @@ void menu::Start_Screen_Control(int argc, char** argv)
 		system("cls");
 		mini_counter_logo();
 		Console::printColored("1) TEST GAME CLASS \n", Console::Color::BRIGHT_MAGENTA);
-		Console::printColored("2) TEST MAIN GAME \n", Console::Color::BRIGHT_MAGENTA);
-		Console::printColored("3) MAIN GAME \n", Console::Color::BRIGHT_MAGENTA);
-		Console::printColored("4) EXIT \n", Console::Color::BRIGHT_MAGENTA);
+		Console::printColored("2) MAIN GAME \n", Console::Color::BRIGHT_MAGENTA);
+		Console::printColored("3) EXIT \n", Console::Color::BRIGHT_MAGENTA);
 
 		Console::printColored("\n-> ", Console::Color::BRIGHT_CYAN);
 
@@ -203,14 +202,10 @@ void menu::Start_Screen_Control(int argc, char** argv)
 			return;
 			break;
 		case(2):
-			Main_game_Test_runner();
-			return;
-			break;
-		case(3):
 			User_Entry();
 			return;
 			break;
-		case(4):
+		case(3):
 			system("cls");
 			mini_counter_logo();
 			Console::printColored("---{ GOOD BYE }---", Console::Color::BRIGHT_YELLOW);
@@ -222,7 +217,7 @@ void menu::Start_Screen_Control(int argc, char** argv)
 		}
 
 
-	} while (mainChoice != 4);
+	} while (mainChoice != 3);
 
 	return;
 }

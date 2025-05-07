@@ -1,0 +1,35 @@
+# Visual Studio files
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+Debug/
+x64/
+Release/
+
+# Build directories
+build/
+out/
+
+# IDE specific files
+.vscode/
+*.code-workspace
+
+# Compiled files
+*.exe
+*.dll
+*.obj
+*.pdb
+*.ilk
+*.log
+
+# Package directories
+packages/
+
+# Backup files
+backup_original/
+*.zip
+
+# Test data
+data/test_users.json 
