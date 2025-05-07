@@ -16,8 +16,8 @@ class UserManager
 {
 public:
 	static UserManager& get_instance();
-	static void reset_instance(); // برای تست
-	static void set_test_mode(bool is_test); // برای تست
+	static void reset_instance();
+	static void set_test_mode(bool is_test); 
 
 	//load
 	void loadUserFromJson();

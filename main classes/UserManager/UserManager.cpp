@@ -124,26 +124,26 @@ void UserManager::saveUserIntoJson()
         }
     }
     catch(const std::exception&) {
-        // در صورت خطا در ذخیره‌سازی، عملیات را ادامه می‌دهیم
+       
     }
 }
 
 bool UserManager::validate_username(const string& username) {
     if(username.empty() || username.length() > 100) return false;
     
-    // فقط حروف، اعداد و آندرلاین مجاز هستند
+   
     std::regex pattern("^[a-zA-Z0-9_]+$");
     return std::regex_match(username, pattern);
 }
 
 bool UserManager::User_register(User& newUser)
 {
-    // اعتبارسنجی نام کاربری
+    
     if (!validate_username(newUser.get_username())) {
         return false;
     }
     
-    // بررسی تکراری نبودن نام کاربری
+    
     for (const auto& user : user_list) {
         if (user.get_username() == newUser.get_username()) {
             return false;
